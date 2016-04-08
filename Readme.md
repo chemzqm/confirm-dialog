@@ -2,6 +2,8 @@
 
 A confirm dialog works on both desktop and mobile phone.
 
+[demo](https://chemzqm/github.com/confirm-dailog)
+
 ## Install
 
     npm install confirm-dialog
