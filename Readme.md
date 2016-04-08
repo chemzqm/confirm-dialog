@@ -2,7 +2,7 @@
 
 A confirm dialog works on both desktop and mobile phone.
 
-[demo](https://chemzqm.github.io/confirm-dailog)
+[demo](https://chemzqm.github.io/confirm-dialog)
 
 ## Install
 
