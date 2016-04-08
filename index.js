@@ -1,16 +1,13 @@
 var event = require('event')
 var ontap = require('ontap')
 var classes = require('classes')
-var offset = require('page-offset')
 var domify = require('domify')
-var template = require('./footer.html')
-var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-var vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-var root = document.compatMode=='BackCompat'? document.body : document.documentElement
 var detect = require('prop-detect')
+var template = require('./footer.html')
 var transform = detect.transform
 var transition = detect.transition
 var transitionEnd = detect.transitionend
+var root = document.compatMode=='BackCompat'? document.body : document.documentElement
 
 function Confirm(msg, opt) {
   opt = opt || {}
@@ -19,21 +16,22 @@ function Confirm(msg, opt) {
   classes(overlay).add('confirm-overlay')
   var rect = document.documentElement.getBoundingClientRect()
   var w = root.clientWidth
+  var h = root.clientHeight
   assign(overlay.style, {
     position: 'absolute',
     top: 0,
     left: 0,
     width: w + 'px',
-    height: Math.max(rect.height, vh) + 'px',
+    height: Math.max(rect.height, h) + 'px',
     zIndex: 998,
     backgroundColor: 'rgba(0,0,0,0)'
   })
   body.appendChild(overlay)
-  var top = offset.y + vh/2 - 30
-  var left = vw/2 - 100
+  var top = h/2 - 50
+  var left = w/2 - 100
   var el = document.createElement('div')
   assign(el.style, {
-    position: 'absolute',
+    position: 'fixed',
     top: top + 'px',
     padding: '10px',
     zIndex: 999,
@@ -69,12 +67,12 @@ function Confirm(msg, opt) {
   el.appendChild(footer)
 
   function cleanUp() {
-    el.style.opacity = 0
     event.bind(el, transitionEnd, function end() {
       event.unbind(el, transitionEnd, end)
       if (el.parentNode) body.removeChild(el)
     })
-    el.style[transform] = 'translateY(-20px)'
+    el.style.opacity = 0
+    el.style[transform] = 'translateY(-100%)'
     body.removeChild(overlay)
   }
 
