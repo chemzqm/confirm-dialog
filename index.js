@@ -56,7 +56,7 @@ function Confirm(msg, opt) {
     assign(el.style, opt.style)
   }
   classes(el).add('confirm-active')
-  el.innerHTML = msg
+  el.innerHTML = '<div>' + msg + '</div>'
   body.appendChild(el)
   footer = footer.replace(/\{\w+\}/g, function (word) {
     if (word == '{yes}') {
