@@ -3,7 +3,7 @@ var ontap = require('ontap')
 var classes = require('classes')
 var offset = require('page-offset')
 var domify = require('domify')
-var footer = require('./footer.html')
+var template = require('./footer.html')
 var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 var vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
 var root = document.compatMode=='BackCompat'? document.body : document.documentElement
@@ -58,14 +58,14 @@ function Confirm(msg, opt) {
   classes(el).add('confirm-active')
   el.innerHTML = '<div>' + msg + '</div>'
   body.appendChild(el)
-  footer = footer.replace(/\{\w+\}/g, function (word) {
+  template = template.replace(/\{\w+\}/g, function (word) {
     if (word == '{yes}') {
       return opt.yes || '确定'
     } else if (word == '{no}') {
       return opt.yes || '取消'
     }
   })
-  footer = domify(footer)
+  var footer = domify(template)
   el.appendChild(footer)
 
   function cleanUp() {
