@@ -17,7 +17,7 @@ function Confirm(msg, opt) {
   var body = document.body
   var overlay = document.createElement('div')
   classes(overlay).add('confirm-overlay')
-  var rect = body.getBoundingClientRect()
+  var rect = document.documentElement.getBoundingClientRect()
   var w = root.clientWidth
   assign(overlay.style, {
     position: 'absolute',
