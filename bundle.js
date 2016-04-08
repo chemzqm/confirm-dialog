@@ -46,10 +46,12 @@
 
 	var confirm = __webpack_require__(1)
 	
-	confirm('Are you sure?').then(function () {
+	confirm('This action can not be undone!').then(function () {
 	  console.log('yes')
 	}, function () {
 	  console.log('no')
+	}).then(function () {
+	  return confirm('Are you sure?')
 	})
 
 
@@ -60,39 +62,37 @@
 	var event = __webpack_require__(2)
 	var ontap = __webpack_require__(3)
 	var classes = __webpack_require__(6)
-	var offset = __webpack_require__(8)
-	var domify = __webpack_require__(9)
-	var footer = __webpack_require__(10)
-	var vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-	var vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-	var root = document.compatMode=='BackCompat'? document.body : document.documentElement
-	var detect = __webpack_require__(11)
+	var domify = __webpack_require__(8)
+	var detect = __webpack_require__(9)
+	var template = __webpack_require__(15)
 	var transform = detect.transform
 	var transition = detect.transition
 	var transitionEnd = detect.transitionend
+	var root = document.compatMode=='BackCompat'? document.body : document.documentElement
 	
 	function Confirm(msg, opt) {
 	  opt = opt || {}
 	  var body = document.body
 	  var overlay = document.createElement('div')
 	  classes(overlay).add('confirm-overlay')
-	  var rect = body.getBoundingClientRect()
+	  var rect = document.documentElement.getBoundingClientRect()
 	  var w = root.clientWidth
+	  var h = root.clientHeight
 	  assign(overlay.style, {
 	    position: 'absolute',
 	    top: 0,
 	    left: 0,
 	    width: w + 'px',
-	    height: Math.max(rect.height, vh) + 'px',
+	    height: Math.max(rect.height, h) + 'px',
 	    zIndex: 998,
 	    backgroundColor: 'rgba(0,0,0,0)'
 	  })
 	  body.appendChild(overlay)
-	  var top = offset.y + vh/2 - 30
-	  var left = vw/2 - 100
+	  var top = h/2 - 50
+	  var left = w/2 - 100
 	  var el = document.createElement('div')
 	  assign(el.style, {
-	    position: 'absolute',
+	    position: 'fixed',
 	    top: top + 'px',
 	    padding: '10px',
 	    zIndex: 999,
@@ -115,25 +115,25 @@
 	    assign(el.style, opt.style)
 	  }
 	  classes(el).add('confirm-active')
-	  el.innerHTML = msg
+	  el.innerHTML = '<div>' + msg + '</div>'
 	  body.appendChild(el)
-	  footer = footer.replace(/\{\w+\}/g, function (word) {
+	  template = template.replace(/\{\w+\}/g, function (word) {
 	    if (word == '{yes}') {
 	      return opt.yes || '确定'
 	    } else if (word == '{no}') {
 	      return opt.yes || '取消'
 	    }
 	  })
-	  footer = domify(footer)
+	  var footer = domify(template)
 	  el.appendChild(footer)
 	
 	  function cleanUp() {
-	    el.style.opacity = 0
 	    event.bind(el, transitionEnd, function end() {
 	      event.unbind(el, transitionEnd, end)
 	      if (el.parentNode) body.removeChild(el)
 	    })
-	    el.style[transform] = 'translateY(-20px)'
+	    el.style.opacity = 0
+	    el.style[transform] = 'translateY(-100%)'
 	    body.removeChild(overlay)
 	  }
 	
@@ -549,27 +549,6 @@
 /* 8 */
 /***/ function(module, exports) {
 
-	var supportPageOffset = window.pageXOffset !== undefined
-	var isCSS1Compat = ((document.compatMode || '') === 'CSS1Compat')
-	var body = document.body
-	
-	Object.defineProperty(exports, 'x', {
-	  get: function () {
-	    return supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : body.scrollLeft
-	  }
-	})
-	
-	Object.defineProperty(exports, 'y', {
-	  get: function () {
-	    return supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : body.scrollTop
-	  }
-	})
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
 	
 	/**
 	 * Expose `parse`.
@@ -685,28 +664,22 @@
 
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	module.exports = "<div class=\"confirm-footer\">\n  <button class=\"btn yes\">{yes}</button>\n  <button class=\"btn no\">{no}</button>\n</div>\n";
-
-/***/ },
-/* 11 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.transition = __webpack_require__(12)
+	exports.transition = __webpack_require__(10)
 	
-	exports.transform = __webpack_require__(13)
+	exports.transform = __webpack_require__(11)
 	
-	exports.touchAction = __webpack_require__(14)
+	exports.touchAction = __webpack_require__(12)
 	
-	exports.transitionend = __webpack_require__(15)
+	exports.transitionend = __webpack_require__(13)
 	
-	exports.has3d = __webpack_require__(16)
+	exports.has3d = __webpack_require__(14)
 
 
 /***/ },
-/* 12 */
+/* 10 */
 /***/ function(module, exports) {
 
 	var styles = [
@@ -732,7 +705,7 @@
 
 
 /***/ },
-/* 13 */
+/* 11 */
 /***/ function(module, exports) {
 
 	
@@ -757,7 +730,7 @@
 
 
 /***/ },
-/* 14 */
+/* 12 */
 /***/ function(module, exports) {
 
 	
@@ -783,7 +756,7 @@
 
 
 /***/ },
-/* 15 */
+/* 13 */
 /***/ function(module, exports) {
 
 	/**
@@ -813,11 +786,11 @@
 
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var prop = __webpack_require__(13);
+	var prop = __webpack_require__(11);
 	
 	// IE <=8 doesn't have `getComputedStyle`
 	if (!prop || !window.getComputedStyle) {
@@ -841,6 +814,12 @@
 	  module.exports = null != val && val.length && 'none' != val;
 	}
 
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"confirm-footer\">\n  <button class=\"btn yes\">{yes}</button>\n  <button class=\"btn no\">{no}</button>\n</div>\n";
 
 /***/ }
 /******/ ]);
