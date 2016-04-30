@@ -65,6 +65,10 @@ function Confirm(msg, opt) {
   })
   var footer = domify(template)
   el.appendChild(footer)
+  if (opt.alert) {
+    var btn = footer.querySelector('.no')
+    btn.parentNode.removeChild(btn)
+  }
 
   function cleanUp() {
     event.bind(el, transitionEnd, function end() {
