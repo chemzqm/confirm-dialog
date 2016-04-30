@@ -51,7 +51,11 @@
 	}, function () {
 	  console.log('no')
 	}).then(function () {
-	  return confirm('Are you sure?')
+	  return confirm('Are you sure?', {
+	    alert: true
+	  })
+	}).catch(function () {
+	  
 	})
 
 
@@ -103,14 +107,14 @@
 	    opacity: 0,
 	    backgroundColor: '#fff'
 	  })
-	  el.style[transform] = 'scale(0.8)'
-	  overlay.style[transition] = 'all 150ms linear'
-	  el.style[transition] = 'all 150ms cubic-bezier(0.04, 0.76, 0.41, 0.99)'
+	  el.style[transform] = 'scale(0.6)'
+	  overlay.style[transition] = 'all 500ms linear'
+	  el.style[transition] = 'all 250ms cubic-bezier(0.04, 0.76, 0.41, 0.99)'
 	  setTimeout(function () {
 	    el.style[transform] = 'scale(1)'
 	    el.style.opacity = '1'
-	    overlay.style.backgroundColor = 'rgba(0,0,0,0.2)'
-	  })
+	    overlay.style.backgroundColor = 'rgba(0,0,0,0.4)'
+	  }, 20)
 	  if (opt.style) {
 	    assign(el.style, opt.style)
 	  }
@@ -119,13 +123,17 @@
 	  body.appendChild(el)
 	  template = template.replace(/\{\w+\}/g, function (word) {
 	    if (word == '{yes}') {
-	      return opt.yes || '确定'
+	      return opt.yes || 'Yes'
 	    } else if (word == '{no}') {
-	      return opt.yes || '取消'
+	      return opt.yes || 'No'
 	    }
 	  })
 	  var footer = domify(template)
 	  el.appendChild(footer)
+	  if (opt.alert) {
+	    var btn = footer.querySelector('.no')
+	    btn.parentNode.removeChild(btn)
+	  }
 	
 	  function cleanUp() {
 	    event.bind(el, transitionEnd, function end() {
