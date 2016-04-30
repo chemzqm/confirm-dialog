@@ -6,7 +6,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/chemzqm/confirm.git"
+    "url": "git+ssh://git@github.com/chemzqm/confirm-dialog.git"
   },
   "keywords": [
     "confirm",
@@ -15,9 +15,9 @@
   "author": "chemzqm@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chemzqm/confirm/issues"
+    "url": "https://github.com/chemzqm/confirm-dialog/issues"
   },
-  "homepage": "https://github.com/chemzqm/confirm#readme",
+  "homepage": "https://github.com/chemzqm/confirm-dialog#readme",
   "devDependencies": {
     "coveralls": "^2.11.4",
     "css-loader": "^0.23.0",
