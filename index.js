@@ -60,7 +60,7 @@ function Confirm(msg, opt) {
     if (word == '{yes}') {
       return opt.yes || 'Yes'
     } else if (word == '{no}') {
-      return opt.yes || 'No'
+      return opt.no || 'No'
     }
   })
   var footer = domify(template)
