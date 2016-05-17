@@ -26,6 +26,7 @@ _Style css class `confirm-footer` for custom style_
 
 ### Confirm(msg, [opt])
 
+* `msg` could be string or element node.
 * `opt.style` contains style override default style
 * `opt.yes` yes text for dialog
 * `opt.no` no text for dialog

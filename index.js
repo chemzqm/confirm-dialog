@@ -54,7 +54,13 @@ function Confirm(msg, opt) {
     assign(el.style, opt.style)
   }
   classes(el).add('confirm-active')
-  el.innerHTML = '<div>' + msg + '</div>'
+  if (typeof msg === 'string') {
+    el.innerHTML = '<div>' + msg + '</div>'
+  } else if (msg.nodeType === 1){
+    el.appendChild(msg)
+  } else {
+    throw new Error('typeof [' + msg + '] not recognized')
+  }
   body.appendChild(el)
   template = template.replace(/\{\w+\}/g, function (word) {
     if (word == '{yes}') {
