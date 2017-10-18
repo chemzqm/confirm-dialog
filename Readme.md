@@ -12,7 +12,7 @@ A confirm dialog works on both desktop and mobile phone.
 ## Usage
 
 ``` js
-var confirm = require('confirm-dailog')
+var confirm = require('confirm-dialog')
 confirm('Are you sure?').then(function() {
   // yes
 }, function() {
